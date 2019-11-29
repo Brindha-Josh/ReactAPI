@@ -19,6 +19,17 @@ export class Customer extends Component {
         this.setState({ cust: data });
       });
   }
+  deletecust(cusid) {
+    if (window.confirm("Are you sure?")) {
+      fetch("https://localhost:44344/api/Customer1/Del/" + cusid, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/JSON",
+          "Content-Type": "application/JSON"
+        }
+      });
+    }
+  }
   componentDidUpdate() {
     this.refreshList();
   }
@@ -62,6 +73,21 @@ export class Customer extends Component {
                     >
                       Edit
                     </Button>
+                    <Button
+                      className="mr-2"
+                      variant="danger"
+                      onClick={() => this.deletecust(cus.id)}
+                    >
+                      Delete
+                    </Button>
+                    <EditCustModal
+                      show={this.state.editModalShow}
+                      onHide={editModalClose}
+                      cusid={cusid}
+                      cusname={cusname}
+                      cusage={cusage}
+                      cusaddress={cusaddress}
+                    />
                     <EditCustModal
                       show={this.state.editModalShow}
                       onHide={editModalClose}
