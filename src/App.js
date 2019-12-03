@@ -13,7 +13,7 @@ function App() {
           React JS with web API Demo
         </h3>
         <h5 className="m-3 d-flex justify-content-center">
-          Customer Management Portal
+          Customer Management Port
         </h5>
         <Navigation></Navigation>
         <Switch>
