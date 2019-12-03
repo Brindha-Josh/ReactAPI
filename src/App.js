@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <div className="container">
         <h3 className="m-3 d-flex justify-content-center">
-          React js with web API Demo
+          React JS with web API Demo
         </h3>
         <h5 className="m-3 d-flex justify-content-center">
           Customer Management Portal
