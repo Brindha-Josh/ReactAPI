@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Modal, Button, Row, Col, Form } from "react-bootstrap";
 import Snackbar from "@material-ui/core/SnackBar";
 import IconButton from "@material-ui/core/IconButton";
+
+//import {FbLoad} from "./components/FbLoad";
 // import Snackbar from "@material-ui/core/Snackbar";
 export class AddCustModal extends Component {
   constructor(props) {
@@ -20,7 +22,8 @@ export class AddCustModal extends Component {
     //   // event.target.age.value
     //   event.target.address.value
     // );
-    fetch("https://localhost:44344/api/Customer1/Create", {
+
+    fetch("https://localhost:44344/Create", {
       method: "POST",
       headers: {
         Accept: "application/JSON",

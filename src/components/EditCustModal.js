@@ -13,7 +13,7 @@ export class EditCustModal extends Component {
   };
   handleSubmit(event) {
     event.preventDefault();
-    fetch("https://localhost:44344/api/Customer1/Edit/" + this.props.cusid, {
+    fetch("https://localhost:44344/Edit/" + this.props.cusid, {
       method: "PUT",
       headers: {
         Accept: "application/JSON",
