@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import { Button, ButtonToolbar } from "react-bootstrap";
 import { AddCustModal } from "./AddCustModal";
 import { EditCustModal } from "./EditCustModal";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Redirect } from "react-router-dom";
-// import { Redirect } from "react-router";
+import { BrowserRouter as Router } from "react-router-dom";
+//import { Redirect } from "react-router-dom";
+//import { Redirect } from "react-router";
 import { FbAuth } from "./FbAuth";
 export class Customer extends Component {
   constructor(props) {
@@ -25,7 +25,9 @@ export class Customer extends Component {
       });
   }
   // onSubmit = () => {
-  //   <FbAuth />;
+  //   if (!this.props.loginstatus) {
+  //     return <Redirect to="/FbAuth/" />;
+  //   }
   // };
   deletecust(cusid) {
     if (window.confirm("Are you sure?")) {
@@ -46,7 +48,24 @@ export class Customer extends Component {
     const { cust, cusid, cusname, cusage, cusaddress } = this.state;
     let addModalClose = () => this.setState({ addModalShow: false });
     let editModalClose = () => this.setState({ editModalShow: false });
-
+    // const PrivateRoute = ({
+    //   comp: Component, // use comp prop
+    //   ...rest
+    // }) => (
+    //   <Route
+    //     {...rest}
+    //     render={props =>
+    //       !this.props.loginstatus ? (
+    //         <AddCustModal
+    //           show={this.state.addModalShow}
+    //           onHide={addModalClose}
+    //         />
+    //       ) : (
+    //         <Component {...props} />
+    //       )
+    //     }
+    //   />
+    // );
     return (
       <Router>
         <div>
@@ -99,14 +118,14 @@ export class Customer extends Component {
                         cusage={cusage}
                         cusaddress={cusaddress}
                       />
-                      <EditCustModal
+                      {/* <EditCustModal
                         show={this.state.editModalShow}
                         onHide={editModalClose}
                         cusid={cusid}
                         cusname={cusname}
                         cusage={cusage}
                         cusaddress={cusaddress}
-                      />
+                      /> */}
                     </ButtonToolbar>
                   </td>
                 </tr>
@@ -114,25 +133,50 @@ export class Customer extends Component {
             </tbody>
           </Table>
           {/* <ButtonToolbar>
-          <Button
-            variant="primary"
-            onClick={this.onSubmit}
-            // onClick={() => this.setState({ addModalShow: true })}
-          >
-            Add Customer
-          </Button>
-        </ButtonToolbar> */}
+            <Button
+              variant="primary"
+              onClick={() => this.onSubmit()}
+              // onClick={() => this.setState({ addModalShow: true })}
+            >
+              Add Customer
+            </Button>
+
+            <AddCustModal
+              show={this.state.addModalShow}
+              onHide={addModalClose}
+            />
+          </ButtonToolbar> */}
 
           <div>
             <Link to="/FbAuth" className="btn btn-primary">
               Add Customer
             </Link>
-            <Route
+            <AddCustModal
+              show={this.state.addModalShow}
+              onHide={addModalClose}
+            />
+            {/* <PrivateRoute exact path="/FbAuth" comp={FbAuth}></PrivateRoute>
+            {/* <Route */}
+            {/* path="/FbAuth" component={FbAuth}
+            exact render=
+            {() =>
+              this.props.loginstatus ? (
+                <AddCustModal
+                  show={this.state.addModalShow}
+                  onHide={addModalClose}
+                />
+              ) : (
+                // (alert("You can't login if you are logged in!"),
+                <Redirect to="/FbAuth" />
+              )
+            }
+            /> */}
+            {/* <Route
               path="/FbAuth"
               component={FbAuth}
               exact
               render={() =>
-                this.state.loggedin ? (
+                this.props.loginstatus ? (
                   <Redirect to="/FbAuth" />
                 ) : (
                   <AddCustModal
@@ -141,13 +185,8 @@ export class Customer extends Component {
                   />
                 )
               }
-            />
-            {/* <Route
-              path="/FbAuth"
-              component={FbAuth}
-              exact={true}
-              
             /> */}
+            <Route path="/FbAuth" component={FbAuth} exact={true} />
           </div>
         </div>
       </Router>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import FacebookLogin from "react-facebook-login";
+//import { Customer } from "./Customer";
 import { Redirect } from "react-router-dom";
 export default class FbLoad extends Component {
   state = {
@@ -7,7 +8,9 @@ export default class FbLoad extends Component {
     userID: "",
     name: "",
     email: "",
-    picture: ""
+    picture: "",
+    loginstate: false
+    // data:""
   };
   responseFacebook = response => {
     this.setState({
@@ -15,13 +18,14 @@ export default class FbLoad extends Component {
       userID: response.userID,
       name: response.name,
       email: response.email,
+      loginstate: true,
+      //data:"yes",
       picture: response.picture.data.url
     });
   };
   componentClicked = () => console.log("clicked");
   render() {
     let fbContent;
-
     if (this.state.isLoggedIn) {
       // fbContent = (
       //   <div
@@ -38,6 +42,9 @@ export default class FbLoad extends Component {
       //   </div>
       // );
       return <Redirect to="/Customer" />;
+
+      // loginstate = true;
+      // return <Redirect to="/Customer" />;
     } else {
       fbContent = (
         <FacebookLogin
