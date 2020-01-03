@@ -3,8 +3,6 @@ import { Modal, Button, Row, Col, Form } from "react-bootstrap";
 import Snackbar from "@material-ui/core/SnackBar";
 import IconButton from "@material-ui/core/IconButton";
 
-//import {FbLoad} from "./components/FbLoad";
-// import Snackbar from "@material-ui/core/Snackbar";
 export class AddCustModal extends Component {
   constructor(props) {
     super(props);
@@ -17,37 +15,25 @@ export class AddCustModal extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    // alert(event.target.name.value);
-    // alert(
-    //   // event.target.age.value
-    //   event.target.address.value
-    // );
 
-    fetch("https://localhost:44344/Create", {
+    fetch("https://localhost:44344/api/Customer", {
       method: "POST",
       headers: {
         Accept: "application/JSON",
         "Content-Type": "application/JSON"
       },
       body: JSON.stringify({
-        //id: null,
         name: event.target.name.value,
         age: event.target.age.value,
         address: event.target.address.value
       })
     });
-    // alert("Added Successfully");
-    // .then(res => res.json())
-    // .then(result => {
-    //   // alert(result);
+
     this.setState({
       snackbarOpen: true,
       snackbarmsg: "Added Successfully"
     });
   }
-  // error => {
-  //   alert("Failed");
-  // }
 
   render() {
     return (
