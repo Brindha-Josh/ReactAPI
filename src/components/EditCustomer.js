@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { Modal, Button, Row, Col, Form } from "react-bootstrap";
 import Snackbar from "@material-ui/core/SnackBar";
 import IconButton from "@material-ui/core/IconButton";
-
-export class AddCustModal extends Component {
+export class EditCustomer extends Component {
   constructor(props) {
     super(props);
     this.state = { snackbarOpen: false, snackbarmsg: "" };
@@ -12,29 +11,30 @@ export class AddCustModal extends Component {
   snackbarClose = event => {
     this.setState({ snackbarOpen: false });
   };
-
   handleSubmit(event) {
     event.preventDefault();
-
-    fetch("https://localhost:44344/api/Customer", {
-      method: "POST",
-      headers: {
-        Accept: "application/JSON",
-        "Content-Type": "application/JSON"
-      },
-      body: JSON.stringify({
-        name: event.target.name.value,
-        age: event.target.age.value,
-        address: event.target.address.value
-      })
-    });
+    fetch(
+      "https://localhost:44344/api/Customer/Edit/" + this.props.customerId,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/JSON",
+          "Content-Type": "application/JSON"
+        },
+        body: JSON.stringify({
+          id: event.target.customerId.value,
+          name: event.target.customerName.value,
+          age: event.target.customerAge.value,
+          address: event.target.customerAddress.value
+        })
+      }
+    );
 
     this.setState({
       snackbarOpen: true,
-      snackbarmsg: "Added Successfully"
+      snackbarmsg: "Updated Successfully"
     });
   }
-
   render() {
     return (
       <div className="container">
@@ -63,42 +63,55 @@ export class AddCustModal extends Component {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              Add Customer
+              Edit Customer
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Row>
               <Col sm={6}>
                 <Form onSubmit={this.handleSubmit}>
-                  <Form.Group controlId="name">
+                  <Form.Group controlId="customerId">
+                    <Form.Label>CustomerID</Form.Label>
+                    <Form.Control
+                      type="number"
+                      name="customerId"
+                      disabled
+                      defaultValue={this.props.customerId}
+                      placeholder="CustomerID"
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="customerName">
                     <Form.Label>CustomerName</Form.Label>
                     <Form.Control
                       type="text"
-                      name="name"
+                      name="customerName"
                       required
+                      defaultValue={this.props.customerName}
                       placeholder="CustomerName"
                     />
                   </Form.Group>
-                  <Form.Group controlId="age">
+                  <Form.Group controlId="customerAge">
                     <Form.Label>Age</Form.Label>
                     <Form.Control
                       type="number"
-                      name="age"
+                      name="customerAge"
                       required
+                      defaultValue={this.props.customerAge}
                       placeholder="Age"
                     />
                   </Form.Group>
-                  <Form.Group controlId="address">
+                  <Form.Group controlId="customerAddress">
                     <Form.Label>Address</Form.Label>
                     <Form.Control
                       type="text"
-                      name="address"
+                      name="customerAddress"
                       required
+                      defaultValue={this.props.customerAddress}
                       placeholder="Address"
                     />
                   </Form.Group>
                   <Button variant="primary" type="submit">
-                    Add Customer
+                    Edit Customer
                   </Button>
                 </Form>
               </Col>

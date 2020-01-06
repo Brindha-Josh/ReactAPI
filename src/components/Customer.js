@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import { Button, ButtonToolbar } from "react-bootstrap";
-import { AddCustModal } from "./AddCustModal";
-import { EditCustModal } from "./EditCustModal";
+import { AddCustomer } from "./AddCustomer";
+import { EditCustomer } from "./EditCustomer";
 import { BrowserRouter as Router } from "react-router-dom";
 import { FbAuth } from "./FbAuth";
 
@@ -22,9 +22,9 @@ export class Customer extends Component {
         this.setState({ customer: data });
       });
   }
-  deletecus = customerid => () => {
+  deleteCustomer = customerId => () => {
     if (window.confirm("Are you sure?")) {
-      fetch("https://localhost:44344/api/Customer/Del/" + customerid, {
+      fetch("https://localhost:44344/api/Customer/Del/" + customerId, {
         method: "DELETE",
         headers: {
           Accept: "application/JSON",
@@ -41,10 +41,10 @@ export class Customer extends Component {
   render() {
     const {
       customer,
-      customerid,
-      customername,
-      customerage,
-      customeraddress
+      customerId,
+      customerName,
+      customerAge,
+      customerAddress
     } = this.state;
     const addModalClose = () => this.setState({ addModalShow: false });
     const editModalClose = () => this.setState({ editModalShow: false });
@@ -76,10 +76,10 @@ export class Customer extends Component {
                         onClick={() =>
                           this.setState({
                             editModalShow: true,
-                            customerid: customers.id,
-                            customername: customers.name,
-                            customerage: customers.age,
-                            customeraddress: customers.address
+                            customerId: customers.id,
+                            customerName: customers.name,
+                            customerAge: customers.age,
+                            customerAddress: customers.address
                           })
                         }
                       >
@@ -88,17 +88,17 @@ export class Customer extends Component {
                       <Button
                         className="mr-2"
                         variant="danger"
-                        onClick={this.deletecus(customers.id)}
+                        onClick={this.deleteCustomer(customers.id)}
                       >
                         Delete
                       </Button>
-                      <EditCustModal
+                      <EditCustomer
                         show={this.state.editModalShow}
                         onHide={editModalClose}
-                        cusid={customerid}
-                        cusname={customername}
-                        cusage={customerage}
-                        cusaddress={customeraddress}
+                        customerId={customerId}
+                        customerName={customerName}
+                        customerAge={customerAge}
+                        customerAddress={customerAddress}
                       />
                     </ButtonToolbar>
                   </td>
@@ -110,7 +110,7 @@ export class Customer extends Component {
             <Link to="/FbAuth" className="btn btn-primary">
               Add Customer
             </Link>
-            <AddCustModal
+            <AddCustomer
               show={this.state.addModalShow}
               onHide={addModalClose}
             />

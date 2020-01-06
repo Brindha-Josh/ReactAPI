@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Modal, Button, Row, Col, Form } from "react-bootstrap";
 import Snackbar from "@material-ui/core/SnackBar";
 import IconButton from "@material-ui/core/IconButton";
-export class EditCustModal extends Component {
+
+export class AddCustomer extends Component {
   constructor(props) {
     super(props);
     this.state = { snackbarOpen: false, snackbarmsg: "" };
@@ -11,27 +12,29 @@ export class EditCustModal extends Component {
   snackbarClose = event => {
     this.setState({ snackbarOpen: false });
   };
+
   handleSubmit(event) {
     event.preventDefault();
-    fetch("https://localhost:44344/api/Customer/Edit/" + this.props.cusid, {
-      method: "PUT",
+
+    fetch("https://localhost:44344/api/Customer", {
+      method: "POST",
       headers: {
         Accept: "application/JSON",
         "Content-Type": "application/JSON"
       },
       body: JSON.stringify({
-        id: event.target.cusid.value,
-        name: event.target.cusname.value,
-        age: event.target.cusage.value,
-        address: event.target.cusaddress.value
+        name: event.target.name.value,
+        age: event.target.age.value,
+        address: event.target.address.value
       })
     });
 
     this.setState({
       snackbarOpen: true,
-      snackbarmsg: "Updated Successfully"
+      snackbarmsg: "Added Successfully"
     });
   }
+
   render() {
     return (
       <div className="container">
@@ -60,55 +63,42 @@ export class EditCustModal extends Component {
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              Edit Customer
+              Add Customer
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Row>
               <Col sm={6}>
                 <Form onSubmit={this.handleSubmit}>
-                  <Form.Group controlId="cusid">
-                    <Form.Label>CustomerID</Form.Label>
-                    <Form.Control
-                      type="number"
-                      name="cusid"
-                      disabled
-                      defaultValue={this.props.cusid}
-                      placeholder="CustomerID"
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="cusname">
+                  <Form.Group controlId="name">
                     <Form.Label>CustomerName</Form.Label>
                     <Form.Control
                       type="text"
-                      name="cusname"
+                      name="name"
                       required
-                      defaultValue={this.props.cusname}
                       placeholder="CustomerName"
                     />
                   </Form.Group>
-                  <Form.Group controlId="cusage">
+                  <Form.Group controlId="age">
                     <Form.Label>Age</Form.Label>
                     <Form.Control
                       type="number"
-                      name="cusage"
+                      name="age"
                       required
-                      defaultValue={this.props.cusage}
                       placeholder="Age"
                     />
                   </Form.Group>
-                  <Form.Group controlId="cusaddress">
+                  <Form.Group controlId="address">
                     <Form.Label>Address</Form.Label>
                     <Form.Control
                       type="text"
-                      name="cusaddress"
+                      name="address"
                       required
-                      defaultValue={this.props.cusaddress}
                       placeholder="Address"
                     />
                   </Form.Group>
                   <Button variant="primary" type="submit">
-                    Edit Customer
+                    Add Customer
                   </Button>
                 </Form>
               </Col>
