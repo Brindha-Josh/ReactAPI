@@ -9,9 +9,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="container">
-        <h3 className="m-3 d-flex justify-content-center">
+        {/* <h3 className="m-3 d-flex justify-content-center">
           React JS with web API Demo
-        </h3>
+        </h3> */}
         <h5 className="m-3 d-flex justify-content-center">
           Customer Management Portal
         </h5>
