@@ -1,20 +1,35 @@
 import React, { Component } from "react";
 import { Modal, Button, Row, Col, Form } from "react-bootstrap";
+import "weather-icons/css/weather-icons.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Snackbar from "@material-ui/core/SnackBar";
 import IconButton from "@material-ui/core/IconButton";
+
 export class EditCustomer extends Component {
   constructor(props) {
     super(props);
-    this.state = { snackbarOpen: false, snackbarmsg: "" };
+    this.state = {
+      customer: [],
+      currentWeather: [],
+      weather: [],
+      snackbarOpen: false,
+      snackbarmsg: ""
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   snackbarClose = event => {
     this.setState({ snackbarOpen: false });
   };
+
+  calCelsius(temp) {
+    let cell = Math.floor(temp - 273.15);
+    return cell;
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     fetch(
-      "https://localhost:44344/api/Customer/Edit/" + this.props.customerId,
+      "https://localhost:44344/api/Customer/Edit/" + this.props.customerid,
       {
         method: "PUT",
         headers: {
@@ -22,10 +37,12 @@ export class EditCustomer extends Component {
           "Content-Type": "application/JSON"
         },
         body: JSON.stringify({
-          id: event.target.customerId.value,
-          name: event.target.customerName.value,
-          age: event.target.customerAge.value,
-          address: event.target.customerAddress.value
+          id: event.target.customerid.value,
+          name: event.target.customername.value,
+          age: event.target.customerage.value,
+          address: event.target.customeraddress.value,
+          cityname: event.target.customercity.value,
+          countryname: event.target.customercountry.value
         })
       }
     );
@@ -55,6 +72,7 @@ export class EditCustomer extends Component {
             </IconButton>
           ]}
         />
+
         <Modal
           {...this.props}
           size="lg"
@@ -66,50 +84,107 @@ export class EditCustomer extends Component {
               Edit Customer
             </Modal.Title>
           </Modal.Header>
+
           <Modal.Body>
             <Row>
               <Col sm={6}>
                 <Form onSubmit={this.handleSubmit}>
-                  <Form.Group controlId="customerId">
+                  <Form.Group controlId="customerid">
                     <Form.Label>CustomerID</Form.Label>
                     <Form.Control
                       type="number"
-                      name="customerId"
+                      name="customerid"
                       disabled
-                      defaultValue={this.props.customerId}
+                      defaultValue={this.props.customerid}
                       placeholder="CustomerID"
                     />
                   </Form.Group>
-                  <Form.Group controlId="customerName">
+
+                  <Form.Group controlId="customername">
                     <Form.Label>CustomerName</Form.Label>
                     <Form.Control
                       type="text"
-                      name="customerName"
+                      name="customername"
                       required
-                      defaultValue={this.props.customerName}
+                      defaultValue={this.props.customername}
                       placeholder="CustomerName"
                     />
                   </Form.Group>
-                  <Form.Group controlId="customerAge">
+
+                  <Form.Group controlId="customerage">
                     <Form.Label>Age</Form.Label>
                     <Form.Control
                       type="number"
-                      name="customerAge"
+                      name="customerage"
                       required
-                      defaultValue={this.props.customerAge}
+                      defaultValue={this.props.customerage}
                       placeholder="Age"
                     />
                   </Form.Group>
-                  <Form.Group controlId="customerAddress">
+
+                  <Form.Group controlId="customeraddress">
                     <Form.Label>Address</Form.Label>
                     <Form.Control
                       type="text"
-                      name="customerAddress"
+                      name="customeraddress"
                       required
-                      defaultValue={this.props.customerAddress}
+                      defaultValue={this.props.customeraddress}
                       placeholder="Address"
                     />
                   </Form.Group>
+
+                  <Form.Group controlId="customercity">
+                    <Form.Label>City Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="customercity"
+                      required
+                      defaultValue={this.props.customercity}
+                      placeholder="City"
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="customercountry">
+                    <Form.Label>Country</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="customercountry"
+                      required
+                      defaultValue={this.props.customercountry}
+                      placeholder="Country"
+                    />
+                  </Form.Group>
+
+                  <Form.Group>
+                    <Form.Label>Current Weather</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows="5"
+                      name="celsius"
+                      disabled
+                      value={
+                        "Temperature :" +
+                        this.props.celsius +
+                        "deg celsius" +
+                        " " +
+                        "\n" +
+                        "Description :" +
+                        this.props.description +
+                        "\n" +
+                        "Maximum Temperature :" +
+                        this.props.temp_max +
+                        "deg celsius" +
+                        " " +
+                        "\n" +
+                        "Minimum Temperature :" +
+                        this.props.temp_min +
+                        "deg celsius" +
+                        " " +
+                        "\n"
+                      }
+                    ></Form.Control>
+                  </Form.Group>
+
                   <Button variant="primary" type="submit">
                     Edit Customer
                   </Button>
