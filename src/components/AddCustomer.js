@@ -9,14 +9,14 @@ export class AddCustomer extends Component {
     this.state = { snackbarOpen: false, snackbarmsg: "" };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   snackbarClose = event => {
     this.setState({ snackbarOpen: false });
   };
 
   handleSubmit(event) {
     event.preventDefault();
-
-    fetch("https://localhost:44344/api/Customer", {
+    fetch("https://localhost:44344/api/Customer/Add", {
       method: "POST",
       headers: {
         Accept: "application/JSON",
@@ -25,7 +25,9 @@ export class AddCustomer extends Component {
       body: JSON.stringify({
         name: event.target.name.value,
         age: event.target.age.value,
-        address: event.target.address.value
+        address: event.target.address.value,
+        cityname: event.target.city.value,
+        countryname: event.target.country.value
       })
     });
 
@@ -55,6 +57,7 @@ export class AddCustomer extends Component {
             </IconButton>
           ]}
         />
+
         <Modal
           {...this.props}
           size="lg"
@@ -66,6 +69,7 @@ export class AddCustomer extends Component {
               Add Customer
             </Modal.Title>
           </Modal.Header>
+
           <Modal.Body>
             <Row>
               <Col sm={6}>
@@ -79,6 +83,7 @@ export class AddCustomer extends Component {
                       placeholder="CustomerName"
                     />
                   </Form.Group>
+
                   <Form.Group controlId="age">
                     <Form.Label>Age</Form.Label>
                     <Form.Control
@@ -88,6 +93,7 @@ export class AddCustomer extends Component {
                       placeholder="Age"
                     />
                   </Form.Group>
+
                   <Form.Group controlId="address">
                     <Form.Label>Address</Form.Label>
                     <Form.Control
@@ -97,6 +103,27 @@ export class AddCustomer extends Component {
                       placeholder="Address"
                     />
                   </Form.Group>
+
+                  <Form.Group controlId="city">
+                    <Form.Label>City</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="city"
+                      required
+                      placeholder="City Name"
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="country">
+                    <Form.Label>Country</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="country"
+                      required
+                      placeholder="Country Name"
+                    />
+                  </Form.Group>
+
                   <Button variant="primary" type="submit">
                     Add Customer
                   </Button>
